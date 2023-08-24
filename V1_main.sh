@@ -69,7 +69,7 @@ label_file="pain_ROI_list.txt"
 source "${env_path}/bin/activate"
 
   # Run the python script
-cmd="python compute_specrum_by_region_SynthSeg.py \
+cmd="python compute_specrum_by_region.py.py \
 --seg_file '${ROI_file}' \
 --label_file '${label_file}' \
 --bold_file '${bold_file}' \
@@ -77,3 +77,19 @@ cmd="python compute_specrum_by_region_SynthSeg.py \
 
 echo "$cmd"
 eval "$cmd"
+
+
+# ## Compute the groups average
+
+#   # Run the python script
+
+# cmd="python compute_group_average_spectrums.py --groups CLBP HC --data-dir /path/to/data --output-path /output/path --figure-path /figure/path --sub-txt-file /path/to/sub_txt_file.txt --label-file /path/to/label_file.txt
+
+# cmd="python compute_specrum_by_region_SynthSeg.py \
+# --seg_file '${ROI_file}' \
+# --label_file '${label_file}' \
+# --bold_file '${bold_file}' \
+# --output_prefix '${output_dir}/sub-${sub}' "
+
+# echo "$cmd"
+# eval "$cmd"
