@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ $# -ne 2]; then
+  echo "Usage: $0 <input_4D_file> <output_3D_file>"
+  exit 1
+fi
 
 HMC_fmri_file="$1"
 output_bold_ref_file="$2"
