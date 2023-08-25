@@ -32,7 +32,7 @@ fi
 
 
 ## Apply head motion correction to fMRI 4D image
-raw_bold="${root_dir}/V1/sub-${sub}/func/sub-${sub}_task-rest_bold.nii.gz"
+raw_bold="${root_dir}/${sessions}/sub-${sub}/func/sub-${sub}_task-rest_bold.nii.gz"
 bold_file="${output_dir}/BOLD/sub-${sub}_task-rest_bold_HMC.nii.gz"
 
 bash apply_HMC.sh "${raw_bold}" "${bold_file}"
@@ -59,7 +59,7 @@ echo " Bold ref file created "
 export ROI_file="${output_dir}/Segmentation/sub-${sub}_bold_seg.nii.gz"
 export qc_path="${output_dir}/Segmentation/sub-${sub}_qc.csv"
 
-bash SyntSeg_on_bold.sh "${BOLD_ref}" "${ROI_file}" "${qc_path}"
+bash SynthSeg_on_bold.sh "${BOLD_ref}" "${ROI_file}" "${qc_path}"
 
 if [ ! -f "${ROI_file}" ]; then
   echo " The segmentation did not work "

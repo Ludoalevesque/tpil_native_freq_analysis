@@ -19,10 +19,10 @@ Options:
     --label_file <path>: Path to the label file (e.g., SynthSeg_label_file.txt).
     --output_prefix <path>: Prefix for the output file names (default: "./").
     --plot: Include this flag to enable plotting of power spectra (default: disabled).
+    --help: Display this help message and exit.
 
 Example:
 python compute_specrum_by_region_SynthSeg.py --seg_file path/to/seg_file.nii.gz --bold_file path/to/bold_file.nii.gz --plot
-
 """
 import os
 import sys
