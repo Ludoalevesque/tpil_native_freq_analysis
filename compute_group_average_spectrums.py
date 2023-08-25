@@ -59,6 +59,8 @@ def plot_region_averaged_spectrum(region_spectrums, positive_frequencies, region
     plt.figure(figsize=(10, 6))  # Create a single figure for all plots
     for i in range(region_spectrums.shape[1]):
         plt.semilogy(positive_frequencies, region_spectrums[:,i], linewidth=0.5, alpha=0.5)
+        plt.semilogy(positive_frequencies, region_spectrums[:, i], linewidth=0.5, alpha=0.5)
+
         
     mean_region_spectrum, std_error, confidence_interval, n = mean_stderr_CI(region_spectrums)
 
@@ -166,9 +168,16 @@ def analyze_group_spectrums(file_list, region, group_name, output_path, figure_p
     valid_subject_count = 0
     
     for file in file_list:
-        
-        # Get rid of the frequencies too close to the edges
+        # Read the data file to a dataframe
         full_df = pd.read_csv(file)
+
+        # make sure labels with * are kept in the data
+        for col in full_df.columns:
+            if '*' in col:
+                new_col = col.replace('*','')
+                full_df.rename(columns={col:new_col}, inplace=True)
+            
+        # Get rid of the frequencies too close to the edges
         all_freqs =  full_df['Frequencies (Hz)']
         selected_frequencies = all_freqs[(all_freqs >= 0.01)&(all_freqs <= 0.4)]
         df = full_df.loc[full_df['Frequencies (Hz)'].isin(selected_frequencies)]
@@ -177,7 +186,8 @@ def analyze_group_spectrums(file_list, region, group_name, output_path, figure_p
         global positive_frequencies
         if type(positive_frequencies) == list:
             positive_frequencies= df['Frequencies (Hz)']
-            
+
+
         region_spectrum = df[region].to_numpy()
         del df
     
@@ -236,6 +246,8 @@ def main(group_names, data_dir, output_path, figure_path, sub_txt_file, label_fi
                 group_files[group].append(complete_path)
     
     for region in labels:
+        if '*' in region:
+            region.replace('*','')
         for group_name in group_names:
             mean_spectrum, stde, confidence_interval, n = analyze_group_spectrums(
                 file_list=group_files[group_name],
@@ -263,11 +275,12 @@ if __name__ == "__main__":
     
     main(group_names, args.data_dir, args.output_path, args.figure_path, args.sub_txt_file, args.label_file)
         
-    # label_file = r"D:\NeuroImaging\frequency_analysis\Label_files\pain_ROI_list.txt"
-    # data_dir = r'D:\NeuroImaging\compute_canada_test\V1\copied_power_spectra_SynthSeg'
-    # output_path = r'D:\NeuroImaging\frequency_analysis\V1\Stats\with_SynthSeg'
-    # figure_path = r"D:\NeuroImaging\frequency_analysis\V1\Stats\figures"
-    # sub_txt_file = r"D:\NeuroImaging\subject_IDs_and_group.txt"
+    # label_file = "pain_ROI_list.txt"
+    # data_dir = "/home/ludoal/scratch/freq_analysis_data/V1"
+    # output_path = f"{data_dir}/Stats"
+    # figure_path = f"{output_path}/figures"
+    # sub_txt_file = "Group_subjects.txt"
     # group_names = ['CLBP', 'HC']  # Add more group names if needed
     
     # main(group_names, data_dir, output_path, figure_path, sub_txt_file,label_file)
+

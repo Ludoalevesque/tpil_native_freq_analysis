@@ -4,7 +4,7 @@
 venv_name="$1"
 
 # List of packages to install
-packages=("numpy" "nibabel" "nilearn" "matplotlib" "scipy" "pandas")
+packages=("numpy" "nibabel" "nilearn" "matplotlib" "scipy")
 
 # Create the virtual environment
 module load python

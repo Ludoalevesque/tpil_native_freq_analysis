@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --time=02:00:00
 #SBATCH --job-name=V1_main
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=1G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem-per-cpu=10G
 #SBATCH --mail-user=ludo.a.levesque@gmail.com
 #SBATCH --mail-type=FAIL,END
-#SBATCH --array=1
+#SBATCH --array=1-53
 #SBATCH --output="outputs/slurm-%A_%a.out"
 
 # Warning this script needs to be run on compute canada from a directory on the scratch.
@@ -17,13 +17,10 @@ export sessions="V1"
 export subjectIDs_file="${root_dir}/${sessions}/subjectIDs.txt"  
 
 if [ ! -f "${subjectIDs_file}" ]; then
-  bash create_subject_txt_file.sh "${subjectIDs_file}"
+  bash create_subject_txt_file.sh "${subjectIDs_file}" 
 fi
 export sub=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "${subjectIDs_file}")
-
 echo " $sub "
-exit(0)
-
 
 export output_dir="${root_dir}/${sessions}/sub-${sub}/frequency_analysis_outputs"
 export FS_LICENSE="licenses/license.txt"
@@ -76,7 +73,7 @@ label_file="pain_ROI_list.txt"
 
   # Activate the virtual environment containing the required packages
 if [ ! -d "${env_path}" ]; then
-    echo "The virtual environment was not found. A new one will be created and the packages will be installed. \
+    echo "!!! Warning : The virtual environment was not found. A new one will be created and the packages will be installed. \
     This can take time, so make sure this messages doesn't pop up every time."
     bash create_env.sh "${env_path}" --leave-activated
 fi

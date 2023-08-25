@@ -127,12 +127,10 @@ def main(args):
         # Erode the region mask
         erosion_iterations = 1  # Adjust this value as needed
         eroded_mask_data = (binary_erosion(mask_data, iterations=erosion_iterations)).astype('float')
-        eroded_mask_img = nib.Nifti1Image(eroded_mask_data, mask_img.affine,  dtype='float')
-        nib.save(eroded_mask_img, 'eroded_4th_ventricule.nii.gz' )    
+        eroded_mask_img = nib.Nifti1Image(eroded_mask_data, mask_img.affine,  dtype='float')  
 
         # Downsample the eroded mask 
         resampled_mask_img = resample_img(eroded_mask_img, target_affine=bold_affine, interpolation='nearest')
-        nib.save(resampled_mask_img, 'eroded_dowsampled_4th_ventricule.nii.gz')  
         
         # Check if the erosion left some voxels
         num_vox = np.count_nonzero(resampled_mask_img.get_fdata())
