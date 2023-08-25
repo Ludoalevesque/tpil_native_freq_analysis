@@ -1,22 +1,19 @@
 #!/bin/bash
 
-if [ $# -ne 2]; then
+if [ $# -ne 2 ]; then
   echo "Usage: $0 <input_4D_file> <output_3D_file>"
   exit 1
 fi
 
 HMC_fmri_file="$1"
 output_bold_ref_file="$2"
-half_vol_file="half_vol_file.nii.gz"
-
-# HMC_fmri_file="/mnt/d/NeuroImaging/frequency_analysis/sub-02/sub-02_task-rest_bold_HMC.nii.gz"
-# output_bold_ref_file="/mnt/d/NeuroImaging/frequency_analysis/sub-02/sub-02_task-rest_boldref.nii.gz"
 
 output_dir=$(dirname "${output_bold_ref_file}")
 
 if [ ! -d "${output_dir}" ]; then
   mkdir -p "${output_dir}"
 fi
+half_vol_file="${output_dir}/half_vol_file.nii.gz"
 
 module load StdEnv/2020  gcc/9.3.0  cuda/11.0 fsl/6.0.4
 
@@ -30,3 +27,8 @@ bet "$half_vol_file" "$output_bold_ref_file"
 
 # Removing temporary files
 rm "$half_vol_file"
+
+
+# HMC_fmri_file="/home/ludoal/scratch/freq_analysis_data/V1/sub-56/frequency_analysis_outputs/BOLD/sub-56_task-rest_bold_HMC.nii.gz"
+# output_bold_ref_file="/home/ludoal/scratch/freq_analysis_data/V1/sub-56/frequency_analysis_outputs/BOLD/sub-56_task-rest_boldref.nii.gz"
+# bash compute_bold_ref.sh "/home/ludoal/scratch/freq_analysis_data/V1/sub-56/frequency_analysis_outputs/BOLD/sub-56_task-rest_bold_HMC.nii.gz" "/home/ludoal/scratch/freq_analysis_data/V1/sub-56/frequency_analysis_outputs/BOLD/sub-56_task-rest_boldref.nii.gz"
