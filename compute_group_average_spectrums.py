@@ -102,7 +102,7 @@ def save_averaged_spectrum(region_spectrums, positive_frequencies, csv_filename)
         'Frequencies (Hz)': positive_frequencies,
         'Power': mean_region_spectrum,
         'Standard error': std_error,
-        '95% confidence interval': confidence_interval,
+        '95pct confidence interval': confidence_interval,
         'Number of samples (n)': n
     }
         
@@ -201,7 +201,7 @@ def analyze_group_spectrums(file_list, region, group_name, output_path, figure_p
     if valid_subject_count > 0:
         region_spectrums = np.column_stack(region_spectrums)
         
-        plot_save_path = f'{figure_path}/{region}_{group_name}_group_mean_spectra'
+        plot_save_path = f'{figure_path}/{region}_{group_name}_group_mean_spectra.jpeg'
         if not os.path.exists(os.path.dirname(plot_save_path)):
             os.makedirs(os.path.dirname(plot_save_path))
                 
